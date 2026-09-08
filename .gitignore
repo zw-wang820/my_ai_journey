@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# WorkBuddy 工作区数据（项目 memory + 备份）
+.workbuddy/
+
+# 系统 / 编辑器
+.DS_Store
+Thumbs.db
