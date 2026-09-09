@@ -46,7 +46,7 @@ def save_todos(todos: list) -> None:
     tmp_path = TODO_FILE.with_suffix('.tmp') #临时文件：todos.json.tmp
     try:
         with open(tmp_path,'w', encoding='utf-8') as f:
-            json.dump(todos, f,ensure_ascii=False, indent=4) 
+            json.dump(todos, f,ensure_ascii=False, indent=4) # 把todos列表写入临时文件
         os.replace(tmp_path, TODO_FILE)  #原子替换原文件
     except OSError as e:
         print(f"保存失败：{e}")
