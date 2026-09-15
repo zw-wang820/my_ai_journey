@@ -5,7 +5,13 @@ import json
 from pathlib import Path
 
 def get_data_dir() -> Path:
-    """跨平台友好的数据目录（V1 仅 Windows，V2 扩展 Linux/macOS）"""
+    """跨平台友好的数据目录（V1 仅 Windows，V2 扩展 Linux/macOS）。
+    
+    Args:
+        None
+    Returns:
+        Path: 数据目录路径，确保存在且可写入
+    """
     if os.name == 'nt':  # Windows
         appdata = os.environ.get('APPDATA')
         if appdata:
@@ -22,8 +28,14 @@ TODO_FILE = get_data_dir() / 'todos.json'
 
 def load_todos() -> list:
     """加载待办列表。
+
     - 文件不存在：友好提示 + 返回空列表
     - 文件损坏：报错并退出（不返回 []，避免后续 save 覆盖原文件）
+
+    Returns:
+        list: 待办事项列表，每个元素为字典，包含 id、content、done 字段。
+
+
     """
     if not TODO_FILE.exists():
         print("已初始化待办列表")
@@ -36,7 +48,13 @@ def load_todos() -> list:
         sys.exit(2)   # 不返回 []，阻断后续 save，保护原文件
 
 def save_todos(todos: list) -> None:
-    """保存todo列表：先 json.dump 到 <file>.tmp，再 os.replace(tmp, TODO_FILE)。"""
+    """保存todo列表：先 json.dump 到 <file>.tmp，再 os.replace(tmp, TODO_FILE)。
+    
+    Args:
+        todos: 待办事项列表，每个元素为字典，包含 id、content、done 字段。
+    Returns:
+        None
+    """ 
     tmp_path = TODO_FILE.with_suffix('.tmp')  # 临时文件：todos.json.tmp
     try:
         with open(tmp_path, 'w', encoding='utf-8') as f:
@@ -45,8 +63,15 @@ def save_todos(todos: list) -> None:
     except OSError as e:
         print(f"保存失败：{e}")
 
-def find_todo_by_id(todos: list, todo_id: int):
-    """返回 id 匹配的 todo；找不到返回 None。"""
+def find_todo_by_id(todos: list, todo_id: int) -> dict | None:
+    """返回 id 匹配的 todo；找不到返回 None。
+    
+    Args:
+        todos: 待办事项列表，每个元素为字典，包含 id、content、done 字段。
+        todo_id: 待办事项ID
+    Returns:
+        dict: 匹配的待办事项字典，包含 id、content、done 字段；若找不到则 None
+    """
     for todo in todos:
         if todo['id'] == todo_id:
             return todo

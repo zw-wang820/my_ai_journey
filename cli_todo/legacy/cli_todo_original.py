@@ -1,3 +1,5 @@
+# LEGACY: 已废弃，仅作历史留存，不再维护）
+
 import os
 import sys
 import json

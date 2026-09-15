@@ -1,8 +1,17 @@
 """edit 子命令：编辑指定待办的内容。"""
+import argparse
 from datetime import datetime
+
 from models import load_todos, save_todos, find_todo_by_id
 
-def run(args) -> None:
+def run(args: argparse.Namespace) -> None:
+    """编辑指定待办的内容。
+    
+    Args:
+        args: argparse解析结果，命令行参数，包含待办事项ID和新的待办事项文本。
+    Returns:
+        None
+    """
     todos = load_todos()
     todo = find_todo_by_id(todos, args.id)
     if todo:

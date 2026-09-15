@@ -1,9 +1,11 @@
-"""程序入口：定义 argparse 子命令并分发给 commands 注册表。"""
 import argparse
 import sys
 from commands import COMMANDS
 
 def main() -> None:
+    """程序入口：定义 argparse 子命令并分发给 commands 注册表。
+
+    """
     parser = argparse.ArgumentParser(description="命令行待办事项工具")
     subparsers = parser.add_subparsers(dest='command', required=True, help='子命令')
 
