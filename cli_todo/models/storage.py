@@ -55,7 +55,7 @@ def save_todos(todos: list) -> None:
     Returns:
         None
     """ 
-    tmp_path = TODO_FILE.with_suffix('.tmp')  # 临时文件：todos.json.tmp
+    tmp_path = TODO_FILE.with_suffix('.tmp')  # 临时文件：todos.tmp
     try:
         with open(tmp_path, 'w', encoding='utf-8') as f:
             json.dump(todos, f, ensure_ascii=False, indent=4)  # 写入临时文件

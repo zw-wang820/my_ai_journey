@@ -1,3 +1,12 @@
 # cli_todo 依赖清单
-# 当前仅使用 Python 标准库，暂无第三方依赖
+
 # 后续新增依赖时：pip install xxx && pip freeze > requirements.txt
+# 测试相关依赖
+colorama==0.4.6
+coverage==7.16.1
+iniconfig==2.3.0
+packaging==26.3
+pluggy==1.6.0
+Pygments==2.21.0
+pytest==9.1.1
+pytest-cov==7.1.0
