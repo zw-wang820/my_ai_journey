@@ -3,6 +3,7 @@
 import os
 import sys
 import json
+import logging
 from pathlib import Path
 
 
@@ -39,7 +40,6 @@ def load_todos() -> list:
     Returns:
         list: 待办事项列表，每个元素为字典，包含 id、content、done 字段。
 
-
     """
     if not TODO_FILE.exists():
         print("已初始化待办列表")
@@ -48,7 +48,7 @@ def load_todos() -> list:
         with open(TODO_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
     except json.JSONDecodeError:
-        print(f"错误：{TODO_FILE} 内容损坏，请检查后重启")
+        logging.error("错误：%s 内容损坏，请检查后重启", TODO_FILE)
         sys.exit(2)  # 不返回 []，阻断后续 save，保护原文件
 
 
@@ -66,7 +66,7 @@ def save_todos(todos: list) -> None:
             json.dump(todos, f, ensure_ascii=False, indent=4)  # 写入临时文件
         os.replace(tmp_path, TODO_FILE)  # 原子替换原文件
     except OSError as e:
-        print(f"保存失败：{e}")
+        logging.error("保存失败：%s", e)
 
 
 def find_todo_by_id(todos: list, todo_id: int) -> dict | None:

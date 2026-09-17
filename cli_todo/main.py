@@ -1,4 +1,7 @@
+"""cli_todo 程序入口：定义 argparse 子命令，分发给 commands 注册表。"""
+
 import argparse
+import logging
 import sys
 from commands import COMMANDS
 
@@ -33,6 +36,11 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    # 只在真正作为 CLI 运行时配置日志；被 import（如 pytest）时不生效
+    logging.basicConfig(
+        level=logging.WARNING,
+        format="%(levelname)s: %(message)s",
+    )
     try:
         main()
     except KeyboardInterrupt:
