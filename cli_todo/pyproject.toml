@@ -1,0 +1,16 @@
+# ---------------------------------------------------------------------------
+# 工具配置
+#   black  读本文件（[tool.black]）
+#   flake8 不读 pyproject.toml，配置在同目录 .flake8
+#   pytest 配置仍在 pytest.ini（优先级高于 pyproject.toml）
+# ---------------------------------------------------------------------------
+
+[tool.black]
+# 行宽。88 是 black 的默认值，显式写出来是为了和 .flake8 的 max-line-length 对齐
+line-length = 88
+
+# 代码实际要求的最低 Python 版本：代码里用了 `dict | None`（3.10+ 语法）
+target-version = ["py310"]
+
+# legacy/ 是归档的历史快照，不参与格式化，保持原貌
+extend-exclude = 'legacy'

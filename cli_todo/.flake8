@@ -1,0 +1,16 @@
+[flake8]
+# 与 black 的 line-length 对齐，否则两者会互相打架
+max-line-length = 88
+
+# E203（切片冒号前空格）是 black 的已知不兼容项，必须忽略
+extend-ignore = E203
+
+# 不检查的目录：归档代码、虚拟环境、工具缓存
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    legacy,
+    .workbuddy,
+    .pytest_cache

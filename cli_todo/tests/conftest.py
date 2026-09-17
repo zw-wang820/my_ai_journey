@@ -6,6 +6,7 @@
 做法：用 monkeypatch 把 `models.storage.TODO_FILE` 临时替换成
 pytest 提供的临时路径，测试结束后自动还原。
 """
+
 import pytest
 
 from models import storage
@@ -26,6 +27,6 @@ def temp_todo_file(tmp_path, monkeypatch):
     Returns:
         pathlib.Path: 临时的 todos.json 路径（初始不存在，由测试自行决定是否预置内容）。
     """
-    fake_path = tmp_path / 'todos.json'
-    monkeypatch.setattr(storage, 'TODO_FILE', fake_path)
+    fake_path = tmp_path / "todos.json"
+    monkeypatch.setattr(storage, "TODO_FILE", fake_path)
     return fake_path
