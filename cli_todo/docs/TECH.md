@@ -1,6 +1,6 @@
 # CLI 待办清单 · 技术方案
 
-> **版本**：v0.2（定稿，作为「写代码」的输入）
+> **版本**：v0.3（模块化重构 + 测试落地后更新）
 > **状态**：✅ 已定稿
 > **基于**：PRD v0.2
 > **文档维护原则**：每完成一轮方案确认，版本号 +1，并在「变更记录」写明本次补了什么。
@@ -43,17 +43,20 @@
 
 ## 2. 项目结构
 
-V1 采用**单文件方案**：`cli_todo.py` 一个文件搞定。  [用户]
+V1 初版为单文件方案（`cli_todo.py`）。**v0.3 起已重构为多模块包结构**：
 
-> 单文件适合 V1 快速验证。V2 若要扩展（优先级、分类、跨平台等），可拆分多文件。
+```
+main.py            入口薄壳（argparse 子命令解析 + logging 初始化）
+commands/          命令实现（add / list / done / edit / del）
+models/
+    storage.py     数据存储实现（读 / 写 JSON、原子写入、错误处理）
+tests/
+    conftest.py    pytest fixture（临时数据文件）
+    test_storage.py  storage 层单元测试
+legacy/            旧版单文件代码归档，不参与格式化与测试
+```
 
-**单文件内部按职责分段**（用注释 / 空行分隔） [AI 补]：
-
-1. 常量 / 配置（数据文件路径）
-2. 数据模型（todo dict 操作函数）
-3. 持久化（读 / 写 JSON）
-4. 命令实现（add / list / done / edit / del / exit）
-5. CLI 入口（argparse）
+> 拆分原则：入口薄壳只做解析与分发，业务在 `commands/`，持久化在 `models/storage.py`，为 V2 扩展（优先级、分类等）预留模块边界。
 
 ---
 
@@ -141,15 +144,23 @@ V1 采用**单文件方案**：`cli_todo.py` 一个文件搞定。  [用户]
 
 ---
 
-## 6. 测试策略
+## 6. 测试与质量门禁
 
-**V1 采用「手动验收用例」**：  [用户]
+### 6.1 单元测试（v0.3 已落地）
 
-- 按 PRD 验收标准 AC-1 ~ AC-9 逐条手动验证。
-- 每个用例准备一个测试步骤清单。
-- 通过 = V1 完工。
+V1 初版为手动验收（AC-1 ~ AC-9），**v0.3 起引入 `pytest`** 对 storage 层做自动化测试：
 
-> V2 引入 `pytest`，对核心函数（读 / 写 / 增 / 删 / 改）写自动化用例。
+- 范围：核心持久化函数（读 / 写 / 增 / 删 / 改的底层），对应 `tests/test_storage.py`。
+- 数据隔离：`tests/conftest.py` 提供 `temp_todo_file` fixture，所有读写文件的测试**必须**注入该 fixture，避免污染 `%APPDATA%` 下的真实数据。
+- 运行：`python -m pytest`（配置在 `pytest.ini`：testpaths=tests、pythonpath=.、`-v`）。
+
+### 6.2 代码规范与提交门禁
+
+- 格式化：`black`（`pyproject.toml`：line-length=88，target-version py310，排除 `legacy/`）。
+- 规范检查：`flake8`（`.flake8`：max-line-length=88 与 black 对齐，ignore E203）。
+- 日志约定：纯用户提示用 `print`；开发者也需关注的信息（文件损坏、保存失败）用 `logging.error`，且用惰性 `%s` 占位；`logging.basicConfig()` 只写在 `main.py` 的入口块内。
+
+**提交前三道门禁**：`black --check .` 无 reformat → `flake8 .` 零输出 → `pytest` 全部通过。
 
 ---
 
@@ -180,6 +191,11 @@ TODO_FILE = get_data_dir() / 'todos.json'
 
 ## 8. 变更记录
 
+- **v0.3**：模块化重构 + 测试落地后同步文档。
+  - 项目结构：单文件 → 多模块包结构（main.py / commands/ / models/ / tests/），旧代码归档至 `legacy/`。
+  - 测试策略：引入 `pytest`，storage 层单测 + `conftest.py` 临时文件 fixture 落地（原 V2 规划提前实现）。
+  - 新增质量门禁：black + flake8（配置对齐 line-length=88）+ pytest 三道门禁；明确 logging 输出约定。
+  - 测试框架配置：`pytest.ini`（testpaths / pythonpath / -v）、`pyproject.toml`（black）、`.flake8`。
 - **v0.2**：定稿，作为「写代码」的输入。
   - 数据模型：补 `created_at` / `updated_at` 字段 [用户同意]。
   - 字段命名：`biaoji` → `done`，命名规范确认 [用户同意]。
