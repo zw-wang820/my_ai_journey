@@ -9,6 +9,9 @@ venv/
 # WorkBuddy 工作区数据（项目 memory + 备份）
 .workbuddy/
 
+# 独立子仓库：各自有自己的 .git 和远端，不并入本仓库
+xhs-mcp/
+
 # 系统 / 编辑器
 .DS_Store
 Thumbs.db
