@@ -18,3 +18,9 @@
 ### 作品二：BuildSelf_APP
 
 通过 vibe coding 为自己设计的个人成长 App，仓库见 https://github.com/zw-wang820/BuildSelf_APP。
+
+
+### 作品三：Studymaterials_archive  学习材料自动归档
+
+自动把符合条件的文件归档到目标目录下对应的文件夹下，具有dry-run（演练模式）和run两种模式，前者只打印相关动作，不真正执行，
+后者才真正执行具体动作。移动复制文件时有失败保护机制，同时具有索引功能，能看到每个归档成功文件的记录，实现可追溯。
