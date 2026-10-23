@@ -1,0 +1,8 @@
+[SKIP] W34_data.csv (不支持的后缀)
+[DONE] W34_notes.md -> tmp\e2e\dest\W34\note\W34_notes.md
+[DONE] W34_scan.sh -> tmp\e2e\dest\W34\code\W34_scan.sh
+[DONE] W34_test.py -> tmp\e2e\dest\W34\code\W34_test.py
+[WARN] W34test.py (未找到 _ 分隔符)
+[SKIP] readme.txt (首字符非 W)
+[SKIP] w34_lower.py (首字符非 W)
+[SUMMARY] 归档 3 个，跳过 4 个，冲突 0 个，失败 0 个
