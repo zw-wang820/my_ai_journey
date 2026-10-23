@@ -1,4 +1,0 @@
-[ERROR] 复制失败：tmp\e2e\src2\W41_test.py -> tmp\e2e\dest3\W41\code\W41_test.py
-  原因：目标目录路径已被同名文件占用，无法建目录
-  原始异常：FileExistsError: [WinError 183] 当文件已存在时，无法创建该文件。: 'tmp\\e2e\\dest3\\W41\\code'
-[SUMMARY] 归档 0 个，跳过 0 个，冲突 0 个，失败 1 个
